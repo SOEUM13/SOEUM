@@ -5,13 +5,22 @@ import certifi
 import config
 
 from pymongo import MongoClient
-client = MongoClient(config.mongo_key,tlsCAFile=certifi.where())
+client = MongoClient(config.Mongo_key,tlsCAFile=certifi.where())
 db = client.SOEUM
-
 
 @app.route('/')
 def home():
     return render_template('index.html')
+
+
+@app.route('/like')
+def like():
+    return render_template('likes.html')
+
+
+@app.route('/update_like')
+def update_like():
+    return render_template('likes.html')
 
 
 @app.route("/post", methods=["POST"])
