@@ -5,7 +5,7 @@ import certifi
 import config
 
 from pymongo import MongoClient
-client = MongoClient(config.mongo_key,tlsCAFile=certifi.where())
+client = MongoClient(config.Mongo_key,tlsCAFile=certifi.where())
 db = client.SOEUM
 
 
