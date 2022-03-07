@@ -1,10 +1,11 @@
 from flask import Flask, render_template, request, jsonify, redirect
 app = Flask(__name__)
 
+import certifi
 import config
 
 from pymongo import MongoClient
-client = MongoClient(config.Mongo_key)
+client = MongoClient(config.mongo_key,tlsCAFile=certifi.where())
 db = client.SOEUM
 
 
