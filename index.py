@@ -5,9 +5,8 @@ import certifi
 import config
 
 from pymongo import MongoClient
-client = MongoClient(config.Mongo_key, tlsCAFile=certifi.where())
+client = MongoClient(config.Mongo_key,tlsCAFile=certifi.where())
 db = client.SOEUM
-
 
 @app.route('/')
 def home():
