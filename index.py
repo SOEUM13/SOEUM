@@ -18,6 +18,7 @@ from pymongo import MongoClient
 client = MongoClient(config.Mongo_key, tlsCAFile=certifi.where())
 db = client.SOEUM
 
+
 @app.route('/post')
 def home():
     token_receive = request.cookies.get('mytoken')
@@ -53,7 +54,6 @@ def sign_in():
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
 
-
         return jsonify({'result': 'success', 'token': token})
     # 찾지 못하면
     else:
@@ -80,8 +80,6 @@ def check_dup():
     username_receive = request.form['username_give']
     exists = bool(db.user.find_one({"username": username_receive}))
     return jsonify({'result': 'success', 'exists': exists})
-
-
 
 
 if __name__ == '__main__':
