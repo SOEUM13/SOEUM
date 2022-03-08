@@ -34,14 +34,17 @@ def home():
     except jwt.exceptions.DecodeError:
         return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
 
+
 @app.route('/like')
 def like():
     return render_template('like.html')
+
 
 @app.route('/')
 def login():
     msg = request.args.get("msg")
     return render_template('login.html', msg=msg)
+
 
 @app.route('/update_like', methods=['POST'])
 def update_like():
@@ -70,6 +73,7 @@ def get_top():
     # for rows in number_list:
     #     print(rows)
     return jsonify({'mynumber':number_list})
+
 
 @app.route('/sign_in', methods=['POST'])
 def sign_in():
