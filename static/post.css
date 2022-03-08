@@ -1,15 +1,78 @@
 
-.wrap {
+.top {
     width: 100%;
     display: flex;
     align-items: center;
     height: 50px;
-    justify-content:center;
+    justify-content: center;
     margin-top: 100px;
 }
 
 .insert_btn {
-    border : 1px solid white;
-    padding : 20px 60px 20px 60px;
+    border: 1px solid white;
+    padding: 20px 60px 20px 60px;
     border-radius: 5px;
+}
+
+.mid {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.keyword_wrap {
+    margin-top: 200px;
+    padding-left: 100px;
+    display: flex;
+    flex-direction: column;
+}
+
+.keyword_wrap select {
+    margin-top: 10px;
+    width: 150px;
+
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+
+    color: #444;
+    background-color: #fff;
+
+    padding: 0.6em 1.4em 0.5em 0.8em;
+
+    border: 1px solid #aaa;
+    border-radius: 0.5em;
+    box-shadow: 0 1px 0 1px rgba(0, 0, 0, 0.04);
+}
+
+.keyword_wrap select:focus {
+    border-color: white;
+    box-shadow: 0 0 1px 3px rgba(0, 0, 0, 0.7);
+    box-shadow: 0 0 0 3px -moz-mac-focusring;
+    color: #222;
+    outline: none;
+}
+
+.keytext {
+    font-weight: bolder;
+}
+
+.top5 {
+    margin-top: 200px;
+    margin-right: 100px;
+}
+
+.top5 > span {
+    margin-left: 50px;
+}
+
+.top5 > ul > li {
+    margin-bottom: 25px;
+    list-style:none;
+    padding-left:0px;
+
 }
