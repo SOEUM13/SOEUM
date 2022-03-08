@@ -19,8 +19,10 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
         <style>
             body {
-                background-color: RGBA(232, 52, 78, 0.2);
+                background-image: url( "static/img/background.png" );
                 min-height: 100vh;
+                background-repeat : no-repeat;
+                background-size : cover;
             }
 
             .section {
@@ -39,19 +41,19 @@
             }
 
             .is-sparta {
-                color: #e8344e !important;
+                color: mediumpurple !important;
             }
 
             .button.is-sparta {
-                background-color: #e8344e;
+                background-color: mediumpurple;
                 border-color: transparent;
                 color: #fff !important;
             }
 
             .button.is-sparta.is-outlined {
                 background-color: transparent;
-                border-color: #e8344e;
-                color: #e8344e !important;
+                border-color: mediumpurple;
+                color: mediumpurple !important;
             }
 
             .help {
@@ -216,12 +218,15 @@
 
     </head>
     <body>
-        <section class="hero is-white">
+        <section class="hero is-purple">
             <div class="hero-body has-text-centered" style="padding-bottom:1rem;margin:auto;">
-                <h1 class="title is-sparta">SO:EUM</h1>
-                <h3 class="subtitle is-sparta">ASMR 추천</h3>
+{#                <h1 class="title is-sparta">SO:EUM</h1>#}
+{#                <h3 class="subtitle is-sparta">ASMR 추천</h3>#}
             </div>
         </section>
+        <div class="section">
+            <img src="static/img/logo.png">
+        </div>
         <section class="section">
             <div class="container">
                 <div class="box" style="max-width: 480px;margin:auto">
