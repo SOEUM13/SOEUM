@@ -1,2 +1,3 @@
 config.py
-SOEUM.iml
+.idea/*.iml
+*.xml
