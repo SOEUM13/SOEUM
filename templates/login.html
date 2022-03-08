@@ -14,47 +14,6 @@
         <!-- Font Awesome CSS -->
         <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
-        <style>
-            body {
-                background-color: RGBA(232, 52, 78, 0.2);
-                min-height: 100vh;
-            }
-
-            .section {
-                padding: 1rem 1.5rem;
-                max-width: 750px;
-                margin: auto;
-            }
-
-            .title {
-                font-weight: 800;
-                font-size: 5rem;
-            }
-
-            .subtitle {
-                font-size: 2rem;
-            }
-
-            .is-sparta {
-                color: #e8344e !important;
-            }
-
-            .button.is-sparta {
-                background-color: #e8344e;
-                border-color: transparent;
-                color: #fff !important;
-            }
-
-            .button.is-sparta.is-outlined {
-                background-color: transparent;
-                border-color: #e8344e;
-                color: #e8344e !important;
-            }
-
-            .help {
-                color: gray;
-            }
-        </style>
         <!-- JS -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
@@ -97,6 +56,9 @@
 
             .help {
                 color: gray;
+            }
+            .nick-margin {
+                margin-top: 10px;
             }
         </style>
         <script>
@@ -315,12 +277,11 @@
                                         <p id="help-password2" class="help is-hidden">비밀번호를 다시 한 번 입력해주세요.</p>
 
                                     <div class="field">
-                                        <div class="control has-icons-left">
+                                        <div class="control has-icons-left nick-margin">
                                             <input id="input-nickname" class="input" type="text" placeholder="닉네임">
                                             <span class="icon is-small is-left"><i class="fa fa-lock"></i></span>
                                         </div>
                                     </div>
-
                                 </div>
                                 <nav class="level is-mobile">
                                     <button class="level-item button is-sparta" onclick="sign_up()">
