@@ -18,7 +18,7 @@ from pymongo import MongoClient
 client = MongoClient(config.Mongo_key, tlsCAFile=certifi.where())
 db = client.SOEUM
 
-@app.route('/login')
+@app.route('/post')
 def home():
     token_receive = request.cookies.get('mytoken')
     try:
@@ -29,6 +29,7 @@ def home():
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:
         return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
+
 
 @app.route('/')
 def login():
@@ -51,6 +52,7 @@ def sign_in():
          'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)  # 로그인 24시간 유지
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+
 
         return jsonify({'result': 'success', 'token': token})
     # 찾지 못하면

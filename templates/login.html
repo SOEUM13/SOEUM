@@ -19,7 +19,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
         <style>
             body {
-                background-image: url( "static/img/background.png" );
+                background-image: url("static/img/background.png");
                 min-height: 100vh;
                 background-repeat : no-repeat;
                 background-size : cover;
@@ -97,8 +97,8 @@
                     },
                     success: function (response) {
                         if (response['result'] == 'success') {
-                            $.cookie('mytoken', response['token'], {path: '/login'});
-                            window.location.replace("/login")
+                            $.cookie('mytoken', response['token'], {path: '/post'});
+                            window.location.replace("/post")
                         } else {
                             alert(response['msg'])
                         }
