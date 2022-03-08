@@ -64,11 +64,17 @@
             .nick-margin {
                 margin-top: 10px;
             }
+            .logo {
+                border : red solid 1px;
+            }
+            .login-box {
+                border : red solid 1px;
+            }
         </style>
         <script>
-            // {% if msg %}
-            //     alert("{{ msg }}")
-            // {% endif %}
+            {% if msg %}
+                 alert("{{ msg }}")
+            {% endif %}
 
             function sign_in() {
                 let username = $("#input-username").val()
@@ -226,11 +232,11 @@
 <!--                <h3 class="subtitle is-sparta">ASMR 추천</h3>-->
             </div>
         </section>
-        <div class="columns">
-            <div class="column">
-                <img src="static/img/logo.png">
+        <div class="columns is-gapless">
+            <div class="column logo">
+                <img src="static/img/logo.png" style="margin:auto">
             </div>
-            <div class="column">
+            <div class="column login-box">
                 <section class="section">
                     <div class="container">
                         <div class="box" style="max-width: 480px;margin:auto">
@@ -317,7 +323,6 @@
                     </div>
                 </section>
             </div>
-
         </div>
 
     </body>

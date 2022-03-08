@@ -19,9 +19,19 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
         <script>
+            // 로그아웃
+            function logout() {
+                $.removeCookie('mytoken');
+                alert('로그아웃!')
+                window.location.href = '/'
+            }
+
         </script>
 
     </head>
     <body>
+        <div>
+            <button type="button" class="btn btn-light" onclick="logout()">로그아웃하기</button>
+        </div>
     </body>
 </html>
