@@ -1,0 +1,31 @@
+body {
+    background-image: linear-gradient(
+            rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)
+    ), url("img/background.png");
+    min-height: 100vh;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: white;
+}
+
+.header_wrap {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    justify-content: space-between;
+}
+
+.logo {
+    padding: 10px 0 0 20px;
+    font-size: 25px;
+}
+
+.header_wrap > button {
+    margin: 10px 20px 0 0;
+    border: none;
+    background-color: bisque;
+    padding: 10px;
+    border-radius: 5px;
+    color: darkslateblue;
+    font-weight: bolder;
+}
