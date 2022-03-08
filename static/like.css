@@ -1,0 +1,14 @@
+.liketest {
+    width : 500px;
+    height: 100px;
+    border: 1px solid silver;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+span > i {
+    font-size: 30px;
+    color: red;
+
+}
