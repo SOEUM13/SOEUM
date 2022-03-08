@@ -25,7 +25,7 @@ def home():
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
 
-        return render_template('post.html') #main page 의 html 넣으면 될 것 같습니다.
+        return render_template('post.html')
 
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
