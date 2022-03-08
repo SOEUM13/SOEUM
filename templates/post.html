@@ -5,13 +5,36 @@
     <title>LIST | SO:EUM</title>
     <link rel="stylesheet" href="static/post.css">
 </head>
-
 <body>
 
 {% include "header.html"%}
 
-<div class="wrap">
+<div class="top">
     <div class="insert_btn">당신의 ASMR을 등록해보세요.</div>
+</div>
+
+<div class="mid">
+    <div class="keyword_wrap">
+        <div class="keytext"># Keyword</div>
+        <select name="keyword">
+            <option value="슬라임">슬라임</option>
+            <option value="음식">음식</option>
+            <option value="사물">사물</option>
+            <option value="자연">자연</option>
+            <option value="수다">수다</option>
+        </select>
+    </div>
+
+    <div class="top5">
+        <span>❤️ TOP 5</span>
+        <ul>
+            <li>1. 좋아요 1위</li>
+            <li>2. 좋아요 2위</li>
+            <li>3. 좋아요 3위</li>
+            <li>4. 좋아요 4위</li>
+            <li>5. 좋아요 5위</li>
+        </ul>
+    </div>
 </div>
 
 
