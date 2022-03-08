@@ -18,7 +18,7 @@ from pymongo import MongoClient
 client = MongoClient(config.Mongo_key, tlsCAFile=certifi.where())
 db = client.SOEUM
 
-@app.route('/')
+@app.route('/login')
 def home():
     token_receive = request.cookies.get('mytoken')
     try:
@@ -30,7 +30,7 @@ def home():
     except jwt.exceptions.DecodeError:
         return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
 
-@app.route('/login')
+@app.route('/')
 def login():
     msg = request.args.get("msg")
     return render_template('login.html', msg=msg)
