@@ -83,5 +83,36 @@ def check_dup():
     return jsonify({'result': 'success', 'exists': exists})
 
 
+@app.route('/post', methods=['POST'])
+def posting():
+
+    try:
+
+        keyword_receive = request.form["keyword_give"]
+        url_receive = request.form["url_give"]
+
+        post_rist = list(db.post.find({}, {'_id': False}))
+        count = len(post_rist) + 1
+
+        doc = {
+            "num": count,
+
+            "keyword": keyword_receive,
+            "url": url_receive
+        }
+        db.post.insert_one(doc)
+        return jsonify({'result': 'success', 'msg': '성공'})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
+
+
+@app.route("/posting", methods=["GET"])
+def post_get():
+    post_list = list(db.post.find({}, {'_id': False}))
+
+    return jsonify({'posts': post_list})
+
+
+
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
