@@ -29,3 +29,7 @@ body {
     color: darkslateblue;
     font-weight: bolder;
 }
+.name {
+    margin-left: 70rem;
+    margin-top: 15px;
+}

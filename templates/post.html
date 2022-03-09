@@ -65,6 +65,8 @@
                         let num = rows[i]['num']
                         let keyword = rows[i]['keyword']
                         let url = rows[i]['url']
+                        let username = rows[i]['username']
+                        console.log(num, keyword, url, username)
 
                         let temp_html = `<div class="post_asmr" id="post-list">
                                             <img class="thumbnail" src="https://i.ytimg.com/vi/cbuZfY2S2UQ/original.jpg">
@@ -74,6 +76,7 @@
                                             <li>${url}
 
                                             </li>
+                                            <li>${username}</li>
                                             </ul>
                                         </div>`
 

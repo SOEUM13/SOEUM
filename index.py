@@ -121,8 +121,10 @@ def check_dup():
 
 @app.route('/post', methods=['POST'])
 def posting():
-
+    token_receive = request.cookies.get('mytoken')
     try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.user.find_one({"username": payload["id"]})
 
         keyword_receive = request.form["keyword_give"]
         url_receive = request.form["url_give"]
@@ -133,7 +135,8 @@ def posting():
         doc = {
             "num": count,
             "keyword": keyword_receive,
-            "url": url_receive
+            "url": url_receive,
+            "username": user_info["username"]
         }
         db.post.insert_one(doc)
         return jsonify({'result': 'success', 'msg': '성공'})
