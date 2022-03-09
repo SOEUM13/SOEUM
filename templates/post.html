@@ -55,55 +55,75 @@
             $('#post-list').empty()
             $.ajax({
                 type: "GET",
-                url: "/posting",
+                url: "/post/posting",
                 data: {},
                 success: function (response) {
                     let rows = response['posts']
 
                     for (let i = 0; i < rows.length; i++) {
+                        let post = rows[i]
                         let num = rows[i]['num']
                         let keyword = rows[i]['keyword']
                         let username = rows[i]['username']
                         let url = rows[i]['url']
-                            code = (url.substr( 32, 11 ));
-                            var myArray = [ code , '/default.jpg'];
-                            var myString = 'https://i1.ytimg.com/vi/';
-                            for (var m in myArray){
+                        code = (url.substr(32, 11));
+                        var myArray = [code, '/default.jpg'];
+                        var myString = 'https://i1.ytimg.com/vi/';
+                        for (var m in myArray) {
                             myString = myString.concat(myArray[m]);
                         }
 
 
+                        let class_heart = post['heart_by_me'] ? "fa-heart": "fa-heart-o"
                         let temp_html = `<div class="post_asmr" id="post-list">
                                             <img class="thumbnail" src="${myString}" onClick="javascript:;window.open('${url}');"'>
-                                            <ul class="info">
-                                            <li class="info_num">${num} 번째 SO:EUM!</li>
-                                            <li>키워드 : ${keyword}</li>
-                                            <li>작성자 : ${username}</li>
-                                            <span class="like" onclick="like()"><i class="fa fa-heart-o" id="heart"></i></span>
+                                            <ul class="info" id="${num}">
+                                                <li class="info_num">${num} 번째 SO:EUM!</li>
+                                                <li>키워드 : ${keyword}</li>
+                                                <li>작성자 : ${username}</li>
+                                                <span class="like" onclick="toggle_like('${num}')"><i class="fa ${class_heart}" id="heart"></i></span>
+                                                <span class="like-num">${post["count_heart"]}</span>
                                             </ul>
                                         </div>`
-
                         $('#post-list').append(temp_html)
                     }
-                }
+                },
             });
         }
 
-        var selectBoxChange = function (value) {
-            $("#changeInput").val(value);
 
-            $.ajax({
-                type: 'GET',
-                url: "/posting",
-                data: {},
-                success: function (response) {
-                    let rows = response['posts']
-                    console.log(rows)
-                    for (let i = 0; i < rows.length; i++) {
-                        let keyword = rows[i]['keyword']
+        //좋아요
+        function toggle_like(num) {
+            let $a_like = $(`#${num}`)
+            let $i_like = $a_like.find("i")
+
+            if ($i_like.hasClass("fa fa-heart")) {
+                $.ajax({
+                    type: "POST",
+                    url: "/post/like",
+                    data: {
+                        num_give: num,
+                        action_give: "unlike"
+                    },
+                    success: function (response) {
+                        $i_like.addClass("fa-heart-o").removeClass("fa-heart")
+                        $a_like.find('span.like-num').text(response["count"])
                     }
-                }
-            })
+                })
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "/post/like",
+                    data: {
+                        num_give: num,
+                        action_give: "like"
+                    },
+                    success: function (response) {
+                        $i_like.addClass("fa-heart").removeClass("fa-heart-o")
+                        $a_like.find('span.like-num').text(response["count"])
+                    }
+                })
+            }
         }
 
     </script>
@@ -144,11 +164,10 @@
 </div>
 
 
-
 <div class="mid">
-    <div class="keyword_wrap" id="changeInput">
+    <div class="keyword_wrap">
         <div class="keytext"># Keyword</div>
-        <select name="keyword" id="select_keyword" onchange="selectBoxChange(this.value);">
+        <select name="keyword">
             <option value="슬라임">슬라임</option>
             <option value="음식">음식</option>
             <option value="사물">사물</option>
