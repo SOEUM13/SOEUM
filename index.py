@@ -32,8 +32,9 @@ def home():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.user.find_one({"username": payload["id"]})
+        return render_template('post.html', user_info=user_info)
 
-        return render_template('post.html')
 
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
@@ -148,6 +149,8 @@ def post_get():
     post_list = list(db.post.find({}, {'_id': False}))
     photo_list = list(db.post.find({}, {'_id': False}))
     return jsonify({'posts': post_list})
+
+
 
 
 

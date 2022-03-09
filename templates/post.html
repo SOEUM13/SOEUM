@@ -83,12 +83,29 @@
                                             </ul>
                                         </div>`
 
-                        console.log(response['posts'])
                         $('#post-list').append(temp_html)
                     }
-                },
+                }
             });
         }
+
+        var selectBoxChange = function (value) {
+            $("#changeInput").val(value);
+
+            $.ajax({
+                type: 'GET',
+                url: "/posting",
+                data: {},
+                success: function (response) {
+                    let rows = response['posts']
+                    console.log(rows)
+                    for (let i = 0; i < rows.length; i++) {
+                        let keyword = rows[i]['keyword']
+                    }
+                }
+            })
+        }
+
     </script>
 
 
@@ -129,9 +146,9 @@
 
 
 <div class="mid">
-    <div class="keyword_wrap">
+    <div class="keyword_wrap" id="changeInput">
         <div class="keytext"># Keyword</div>
-        <select name="keyword">
+        <select name="keyword" id="select_keyword" onchange="selectBoxChange(this.value);">
             <option value="슬라임">슬라임</option>
             <option value="음식">음식</option>
             <option value="사물">사물</option>
