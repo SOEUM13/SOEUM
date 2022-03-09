@@ -124,10 +124,8 @@ def posting():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-
         keyword_receive = request.form["keyword_give"]
         url_receive = request.form["url_give"]
-
         post_rist = list(db.post.find({}, {'_id': False}))
         count = len(post_rist) + 1
 
@@ -146,8 +144,15 @@ def posting():
 @app.route("/posting", methods=["GET"])
 def post_get():
     post_list = list(db.post.find({}, {'_id': False}))
-    photo_list = list(db.post.find({}, {'_id': False}))
     return jsonify({'posts': post_list})
+
+
+@app.route("/delete", methods=["POST"])
+def post_delete():
+
+    num_receive = request.form['num_give']
+    db.post.delete_one({'num': int(num_receive)})
+    return jsonify({'msg': '삭제 완료!'})
 
 
 

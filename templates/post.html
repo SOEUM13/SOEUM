@@ -65,10 +65,10 @@
                         let keyword = rows[i]['keyword']
                         let username = rows[i]['username']
                         let url = rows[i]['url']
-                            code = (url.substr( 32, 11 ));
-                            var myArray = [ code , '/default.jpg'];
-                            var myString = 'https://i1.ytimg.com/vi/';
-                            for (var m in myArray){
+                        code = (url.substr(32, 11));
+                        var myArray = [code, '/default.jpg'];
+                        var myString = 'https://i1.ytimg.com/vi/';
+                        for (var m in myArray) {
                             myString = myString.concat(myArray[m]);
                         }
 
@@ -81,6 +81,12 @@
                                             <li>작성자 : ${username}</li>
                                             <span class="like" onclick="like()"><i class="fa fa-heart-o" id="heart"></i></span>
                                             </ul>
+                                            <c:if test="${username == '${username}'}">
+                                            <button id="btn-delete" class="btn btn-sparta btn-lg" onclick="delete_post(${num})">
+                                                <i class="fa fa-trash-o"></i>
+                                            </button>
+                                            </c:if>
+
                                         </div>`
 
                         console.log(response['posts'])
@@ -89,6 +95,20 @@
                 },
             });
         }
+
+        function delete_post(num) {
+            $.ajax({
+                type: "POST",
+                url: "/delete",
+                data: {num_give: num},
+                success: function (response) {
+                    alert(response["msg"])
+                    window.location.reload()
+                }
+            });
+        }
+
+
     </script>
 
 
@@ -125,7 +145,6 @@
         </div>
     </div>
 </div>
-
 
 
 <div class="mid">
