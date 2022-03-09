@@ -41,28 +41,6 @@ def home():
         return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
 
 
-@app.route('/like')
-def like():
-    return render_template('like.html')
-
-
-@app.route('/update_like', methods=['POST'])
-def update_like():
-    action_receive = request.form["action_give"]
-    #랜덤 숫자
-    number = randrange(10)
-    doc = {
-        "number": number,
-        "like": "test",
-        "id": "test"
-    }
-    if action_receive == "like":
-        db.likes.insert_one(doc)
-    else:
-        db.likes.insert_one(doc)
-    return redirect("/like")
-
-
 @app.route('/top5', methods=['GET'])
 def get_top():
 
@@ -122,6 +100,7 @@ def check_dup():
 @app.route('/post', methods=['POST'])
 def posting():
     token_receive = request.cookies.get('mytoken')
+
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
 
@@ -143,12 +122,49 @@ def posting():
         return redirect(url_for("home"))
 
 
-@app.route("/posting", methods=["GET"])
-def post_get():
-    post_list = list(db.post.find({}, {'_id': False}))
-    photo_list = list(db.post.find({}, {'_id': False}))
-    return jsonify({'posts': post_list})
+@app.route('/post/like', methods=['POST'])
+def update_like():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
 
+        # 좋아요 수 변경
+        user_info = db.user.find_one({"username": payload["id"]})
+        num_receive = request.form["num_give"]
+        action_receive = request.form["action_give"]
+
+        doc = {
+            "num": num_receive,
+            "username": user_info["username"]
+        }
+
+        if action_receive == "like":
+            db.likes.insert_one(doc)
+        else:
+            db.likes.delete_one(doc)
+        count = db.likes.count_documents({"num": num_receive})
+
+        return jsonify({"result": "success", "count": count})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
+
+
+@app.route("/post/posting", methods=["GET"])
+def post_get():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+
+        post_list = list(db.post.find({}, {'_id': False}))
+
+        for post in post_list:
+            post["num"] = str(post["num"])
+            post["count_heart"] = db.likes.count_documents({"num": post["num"]})
+            post["heart_by_me"] = bool(db.likes.find_one({"num": post["num"], "username": payload["id"]}))
+
+        return jsonify({"result": "success", "posts": post_list})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
 
 
 if __name__ == '__main__':
