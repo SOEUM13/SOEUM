@@ -21,6 +21,12 @@ client = MongoClient(config.Mongo_key, tlsCAFile=certifi.where())
 db = client.SOEUM
 
 
+@app.route('/')
+def login():
+    msg = request.args.get("msg")
+    return render_template('login.html', msg=msg)
+
+
 @app.route('/post')
 def home():
     token_receive = request.cookies.get('mytoken')
@@ -38,12 +44,6 @@ def home():
 @app.route('/like')
 def like():
     return render_template('like.html')
-
-
-@app.route('/')
-def login():
-    msg = request.args.get("msg")
-    return render_template('login.html', msg=msg)
 
 
 @app.route('/update_like', methods=['POST'])
@@ -124,7 +124,6 @@ def posting():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        user_info = db.user.find_one({"username": payload["id"]})
 
         keyword_receive = request.form["keyword_give"]
         url_receive = request.form["url_give"]
@@ -134,9 +133,9 @@ def posting():
 
         doc = {
             "num": count,
+            "username": payload["id"],
             "keyword": keyword_receive,
-            "url": url_receive,
-            "username": user_info["username"]
+            "url": url_receive
         }
         db.post.insert_one(doc)
         return jsonify({'result': 'success', 'msg': '성공'})
