@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>LIST | SO:EUM</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
     <link rel="stylesheet" href="/static/css/post.css">
     <script src="https://kit.fontawesome.com/2adf3c10c8.js" crossorigin="anonymous"></script>
@@ -13,6 +12,7 @@
 
         $(document).ready(function () {
             show_post();
+            show_top();
         });
 
 
@@ -73,8 +73,7 @@
                             myString = myString.concat(myArray[m]);
                         }
 
-
-                        let class_heart = post['heart_by_me'] ? "fa-heart": "fa-heart-o"
+                        let class_heart = post['heart_by_me'] ? "fa-heart" : "fa-heart-o"
                         let temp_html = `<div class="post_asmr" id="post-list">
                                             <img class="thumbnail" src="${myString}" onClick="javascript:;window.open('${url}');"'>
                                             <ul class="info" id="${num}">
@@ -85,6 +84,7 @@
                                                 <span class="like-num">${post["count_heart"]}</span>
                                             </ul>
                                         </div>`
+
                         $('#post-list').append(temp_html)
                     }
                 },
@@ -124,6 +124,30 @@
                     }
                 })
             }
+        }
+
+
+        //keyword 순위
+        function show_top() {
+            $.ajax({
+                type: "GET",
+                url: "/top5",
+                data: {},
+                success: function (response) {
+                    let count = response['count']
+                    let number = 1
+
+                    for (let i = 0; i < count.length; i++) {
+                        let id = count[i]['_id']
+
+                        let temp_html = `
+                                                <div class="top5_number">${number}위&nbsp;&nbsp;&nbsp;${id}</div>
+                                        `
+                        number++;
+                        $('.top5_list').append(temp_html)
+                    }
+                }
+            });
         }
 
     </script>
@@ -182,14 +206,10 @@
     </div>
 
     <div class="top5">
-        <span>❤️ TOP 5</span>
-        <ul>
-            <li>1. 좋아요 1위</li>
-            <li>2. 좋아요 2위</li>
-            <li>3. 좋아요 3위</li>
-            <li>4. 좋아요 4위</li>
-            <li>5. 좋아요 5위</li>
-        </ul>
+        <div class="top5_title"># 등록 순위</div>
+        <div class="top5_list">
+
+        </div>
     </div>
 </div>
 
