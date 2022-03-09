@@ -4,14 +4,16 @@
     <meta charset="UTF-8">
     <title>LIST | SO:EUM</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-
-    <link rel="stylesheet" href="/static/post.css">
-
+    <link rel="stylesheet" href="/static/css/post.css">
+    <script src="https://kit.fontawesome.com/2adf3c10c8.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
-
     <script>
+
+        $(document).ready(function () {
+            show_post();
+        });
 
 
         window.onload = function () {
@@ -48,9 +50,6 @@
             })
         }
 
-        $(document).ready(function () {
-            show_post();
-        });
 
         function show_post() {
             $('#post-list').empty()
@@ -65,22 +64,18 @@
                         let num = rows[i]['num']
                         let keyword = rows[i]['keyword']
                         let url = rows[i]['url']
-                            code = (url.substr( 32, 11 ));
-                            var myArray = [ code , '/default.jpg'];
-                            var myString = 'https://i1.ytimg.com/vi/';
-                            for (var m in myArray){
-                            myString = myString.concat(myArray[m]);
-                        }
-
 
                         let temp_html = `<div class="post_asmr" id="post-list">
-                                            <img class="thumbnail" src="${myString}">
-                                            <ul>
+                                            <img class="thumbnail" src="https://i.ytimg.com/vi/cbuZfY2S2UQ/original.jpg">
+                                            <ul class="info">
                                             <li>${num}</li>
                                             <li>${keyword}</li>
                                             <li>${url}</li>
+                                            <span class="like" onclick="like()"><i class="fa fa-heart-o" id="heart"></i></span>
                                             </ul>
                                         </div>`
+
+                        console.log(response['posts'])
                         $('#post-list').append(temp_html)
                     }
                 },
@@ -137,8 +132,9 @@
         </select>
     </div>
 
-    <div class="post_zone" >
-        <div class="" id="post-list"></div>
+    <div class="post_zone">
+        <div class="post_asmr" id="post-list">
+        </div>
     </div>
 
     <div class="top5">
