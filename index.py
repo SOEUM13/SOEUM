@@ -165,7 +165,7 @@ def post_get():
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
 
-        post_list = list(db.post.find({}, {'_id': False}))
+        post_list = list(db.post.find({}, {'_id': False}).sort('_id', -1))
 
         for post in post_list:
             post["num"] = str(post["num"])

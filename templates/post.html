@@ -20,6 +20,7 @@
 
         $(document).ready(function () {
             show_post();
+            show_top();
         });
 
 
@@ -133,6 +134,30 @@
             }
         }
 
+        //keyword 순위
+        function show_top() {
+            $.ajax({
+                type: "GET",
+                url: "/top5",
+                data: {},
+                success: function (response) {
+                    let count = response['count']
+                    let number = 1
+
+                    for (let i = 0; i < count.length; i++) {
+                        let id = count[i]['_id']
+
+                        let temp_html = `
+                                                <div class="top5_number">${number}위&nbsp;&nbsp;&nbsp;${id}</div>
+                                        `
+                        number++;
+                        $('.top5_list').append(temp_html)
+                    }
+                }
+            });
+        }
+
+
         //keyword 누르면 해당 keyword만 분류하여 나오게 하기
         $(document).ready(function () {
             $("#changeTest").change(function () {
@@ -232,23 +257,19 @@
         </select>
     </div>
 
+
     <div class="post_zone">
-        <div data-bs-spy="scroll" id="post-list" class="container">
+        <div class = "container" id="post-list">
         </div>
     </div>
 
     <div class="top5">
-        <span>❤️ TOP 5</span>
-        <ul>
-            <li>1. 좋아요 1위</li>
-            <li>2. 좋아요 2위</li>
-            <li>3. 좋아요 3위</li>
-            <li>4. 좋아요 4위</li>
-            <li>5. 좋아요 5위</li>
-        </ul>
+        <div class="top5_title"># 등록 순위</div>
+        <div class="top5_list">
+
+        </div>
     </div>
 </div>
-
 
 </body>
 </html>
