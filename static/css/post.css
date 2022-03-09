@@ -152,19 +152,22 @@
 
 .post_zone {
     width: 55%;
-    height: 1000px;
+    height: 100%;
     margin-top: 100px;
+    margin-bottom: 30px;
     display: flex;
     justify-content: center;
-    border: 2px solid black;
+    border-radius: 5px;
 }
 
 .post_asmr {
-    width: 180%;
+    width: 700px;
     height: 150px;
-    background-color: darkgray;
+    background-color: #E6CCA9;
+    color: white;
     margin-top: 20px;
-    border: 2px solid black;
+
+    border-radius: 5px;
     justify-content: center;
 }
 
@@ -177,5 +180,13 @@
     float:left
 }
 
+.info {
+    margin-top: 8px;
+}
+
+.info_num {
+    margin-bottom: 10px;
+    font-size : 18px;
+}
 
 
