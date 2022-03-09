@@ -73,6 +73,8 @@
                             myString = myString.concat(myArray[m]);
                         }
 
+                        console.log(response['posts'])
+
 
                         let class_heart = post['heart_by_me'] ? "fa-heart": "fa-heart-o"
                         let temp_html = `<div class="post_asmr" id="post-list">
@@ -84,13 +86,9 @@
                                                 <span class="like" onclick="toggle_like('${num}')"><i class="fa ${class_heart}" id="heart"></i></span>
                                                 <span class="like-num">${post["count_heart"]}</span>
                                             </ul>
-                                            <c:if test="${username == '${username}'}">
-                                            <button id="btn-delete" class="btn btn-sparta btn-lg" onclick="delete_post(${num})">
+                                            <button id="btn-delete" class="btn btn-sparta btn-lg " onclick="delete_post(${num}) ">
                                                 <i class="fa fa-trash-o"></i>
-                                            </button>
-                                            </c:if>
-
-                                        </div>`
+                                            </button>`
                         $('#post-list').append(temp_html)
                     }
                 },
@@ -135,14 +133,19 @@
         function delete_post(num) {
             $.ajax({
                 type: "POST",
-                url: "/delete",
-                data: {num_give: num},
+                url: "/post/delete",
+                data: {
+                    num_give: num,
+                    username_give: username
+                },
                 success: function (response) {
                     alert(response["msg"])
-                    window.location.reload()
+                    console.log(response["msg"])
                 }
             });
         }
+
+
     </script>
 
 
