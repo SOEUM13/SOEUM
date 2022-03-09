@@ -149,12 +149,5 @@ def post_get():
 
 
 
-    my_string = 'https://i1.ytimg.com/vi//default.jpg'
-    text = 'https://www.youtube.com/watch?v=4LIt_ICJyjk'
-    out = text.split('=')
-    index = my_string.find('/default.jpg')
-    final_string = my_string[:index] + (out[1]) + my_string[index:]
-    print(final_string)
-
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)

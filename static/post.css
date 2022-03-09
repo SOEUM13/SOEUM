@@ -156,24 +156,22 @@
 }
 
 .post_asmr {
-    width: 90%;
+    width: 180%;
     height: 150px;
     background-color: darkgray;
     margin-top: 20px;
     border: 2px solid black;
+    justify-content: center;
 }
 
 .thumbnail {
     width: 160px;
     height: 130px;
     object-fit: cover;
-
     border-radius: 3px;
     margin: 10px 10px 10px 10px;
     float:left
 }
 
-.info {
-    margin: 10px 10px 10px 10px;
-}
+
 
