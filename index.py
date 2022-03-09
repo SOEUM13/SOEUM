@@ -1,6 +1,7 @@
 import jwt
 import datetime
 import hashlib
+
 from flask import Flask, render_template, jsonify, request, redirect, url_for
 from werkzeug.utils import secure_filename
 from datetime import datetime, timedelta
@@ -11,12 +12,11 @@ app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
 
 SECRET_KEY = 'SPARTA'
 
-from random import randrange
-
 import certifi
 import config
 
 from pymongo import MongoClient
+
 client = MongoClient(config.Mongo_key, tlsCAFile=certifi.where())
 db = client.SOEUM
 
@@ -41,18 +41,6 @@ def home():
         return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
 
 
-@app.route('/top5', methods=['GET'])
-def get_top():
-
-    number_list = list(db.likes.find({}, {'_id':False}).sort("number", -1).limit(5))
-
-    # number_list = list(db.likes.find({}, {'_id':False}))
-
-    # for rows in number_list:
-    #     print(rows)
-    return jsonify({'mynumber':number_list})
-
-
 @app.route('/sign_in', methods=['POST'])
 def sign_in():
     # 로그인
@@ -64,8 +52,8 @@ def sign_in():
 
     if result is not None:
         payload = {
-         'id': username_receive,
-         'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)  # 로그인 24시간 유지
+            'id': username_receive,
+            'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)  # 로그인 24시간 유지
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
 
@@ -82,9 +70,9 @@ def sign_up():
     nickname_receive = request.form['nickname_give']
     password_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
     doc = {
-        "username": username_receive,                               # 아이디
-        "password": password_hash,                                  # 비밀번호
-        "nick_name": nickname_receive                               # 이름
+        "username": username_receive,  # 아이디
+        "password": password_hash,  # 비밀번호
+        "nick_name": nickname_receive  # 이름
     }
     db.user.insert_one(doc)
     return jsonify({'result': 'success'})
@@ -113,6 +101,7 @@ def posting():
             "username": payload["id"],
             "keyword": keyword_receive,
             "url": url_receive
+
         }
         db.post.insert_one(doc)
         return jsonify({'result': 'success', 'msg': '성공'})
@@ -120,6 +109,7 @@ def posting():
         return redirect(url_for("home"))
 
 
+#좋아요 update 및 count 표기 관련
 @app.route('/post/like', methods=['POST'])
 def update_like():
     token_receive = request.cookies.get('mytoken')
@@ -147,6 +137,26 @@ def update_like():
         return redirect(url_for("home"))
 
 
+#가장 많이 등록된 keyword 순위 조회
+@app.route("/top5", methods=["GET"])
+def top5_get():
+
+    count = db.post.aggregate([
+        {
+            "$group": {
+                "_id": "$keyword",
+                "count": {"$sum": 1}
+            }
+        },
+        {
+            "$sort": {"count": -1}
+        }
+    ])
+
+    return jsonify({"result": "success", "count": list(count)})
+
+
+#리스트 조회 (+ 좋아요 count / 본인 체크 확인)
 @app.route("/post/posting", methods=["GET"])
 def post_get():
     token_receive = request.cookies.get('mytoken')
@@ -159,7 +169,6 @@ def post_get():
             post["num"] = str(post["num"])
             post["count_heart"] = db.likes.count_documents({"num": post["num"]})
             post["heart_by_me"] = bool(db.likes.find_one({"num": post["num"], "username": payload["id"]}))
-
         return jsonify({"result": "success", "posts": post_list})
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
