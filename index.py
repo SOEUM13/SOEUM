@@ -42,18 +42,6 @@ def home():
         return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
 
 
-@app.route('/top5', methods=['GET'])
-def get_top():
-
-    number_list = list(db.likes.find({}, {'_id':False}).sort("number", -1).limit(5))
-
-    # number_list = list(db.likes.find({}, {'_id':False}))
-
-    # for rows in number_list:
-    #     print(rows)
-    return jsonify({'mynumber':number_list})
-
-
 @app.route('/sign_in', methods=['POST'])
 def sign_in():
     # 로그인
@@ -123,6 +111,7 @@ def posting():
         return redirect(url_for("home"))
 
 
+#좋아요 update 및 count 표기 관련
 @app.route('/post/like', methods=['POST'])
 def update_like():
     token_receive = request.cookies.get('mytoken')
@@ -150,20 +139,50 @@ def update_like():
         return redirect(url_for("home"))
 
 
+#가장 많이 등록된 keyword 순위 조회
+@app.route("/top5", methods=["GET"])
+def top5_get():
+
+    count = db.post.aggregate([
+        {
+            "$group": {
+                "_id": "$keyword",
+                "count": {"$sum": 1}
+            }
+        },
+        {
+            "$sort": {"count": -1}
+        }
+    ])
+
+    return jsonify({"result": "success", "count": list(count)})
+
+
+#리스트 조회 (+ 좋아요 count / 본인 체크 확인)
 @app.route("/post/posting", methods=["GET"])
 def post_get():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
 
-        post_list = list(db.post.find({}, {'_id': False}).sort('_id', -1))
+        post_list = list(db.post.find({}, {'_id': False}))
 
         for post in post_list:
             post["num"] = str(post["num"])
             post["count_heart"] = db.likes.count_documents({"num": post["num"]})
             post["heart_by_me"] = bool(db.likes.find_one({"num": post["num"], "username": payload["id"]}))
-
         return jsonify({"result": "success", "posts": post_list})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
+
+
+@app.route("/post/delete", methods=["GET"])
+def post_del():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        username = payload["id"]
+        return jsonify({"result": "success", "username": username})
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
 
