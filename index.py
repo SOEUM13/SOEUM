@@ -11,6 +11,8 @@ app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
 
 SECRET_KEY = 'SPARTA'
 
+from random import randrange
+
 import certifi
 import config
 
@@ -33,10 +35,44 @@ def home():
         return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
 
 
+@app.route('/like')
+def like():
+    return render_template('like.html')
+
+
 @app.route('/')
 def login():
     msg = request.args.get("msg")
     return render_template('login.html', msg=msg)
+
+
+@app.route('/update_like', methods=['POST'])
+def update_like():
+    action_receive = request.form["action_give"]
+    #랜덤 숫자
+    number = randrange(10)
+    doc = {
+        "number": number,
+        "like": "test",
+        "id": "test"
+    }
+    if action_receive == "like":
+        db.likes.insert_one(doc)
+    else:
+        db.likes.insert_one(doc)
+    return redirect("/like")
+
+
+@app.route('/top5', methods=['GET'])
+def get_top():
+
+    number_list = list(db.likes.find({}, {'_id':False}).sort("number", -1).limit(5))
+
+    # number_list = list(db.likes.find({}, {'_id':False}))
+
+    # for rows in number_list:
+    #     print(rows)
+    return jsonify({'mynumber':number_list})
 
 
 @app.route('/sign_in', methods=['POST'])
@@ -82,6 +118,43 @@ def check_dup():
     exists = bool(db.user.find_one({"username": username_receive}))
     return jsonify({'result': 'success', 'exists': exists})
 
+
+@app.route('/post', methods=['POST'])
+def posting():
+
+    try:
+
+        keyword_receive = request.form["keyword_give"]
+        url_receive = request.form["url_give"]
+
+        post_rist = list(db.post.find({}, {'_id': False}))
+        count = len(post_rist) + 1
+
+        doc = {
+            "num": count,
+            "keyword": keyword_receive,
+            "url": url_receive
+        }
+        db.post.insert_one(doc)
+        return jsonify({'result': 'success', 'msg': '성공'})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
+
+
+@app.route("/posting", methods=["GET"])
+def post_get():
+    post_list = list(db.post.find({}, {'_id': False}))
+    photo_list = list(db.post.find({}, {'_id': False}))
+    return jsonify({'posts': post_list})
+
+
+
+    my_string = 'https://i1.ytimg.com/vi//default.jpg'
+    text = 'https://www.youtube.com/watch?v=4LIt_ICJyjk'
+    out = text.split('=')
+    index = my_string.find('/default.jpg')
+    final_string = my_string[:index] + (out[1]) + my_string[index:]
+    print(final_string)
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)

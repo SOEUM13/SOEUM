@@ -1,3 +1,4 @@
 config.py
 .idea/*.iml
 *.xml
+config.cpython-38.pyc

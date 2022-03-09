@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://kit.fontawesome.com/2adf3c10c8.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <link rel="stylesheet" href="./static/css/like.css">
+    <script>
+        $(document).ready(function () {
+            show_top();
+            like();
+        })
+
+        function like() {
+            let $like = $(`#heart`)
+            if ($like.hasClass("fa fa-heart")) {
+                $.ajax({
+                    type: "POST",
+                    url: "/update_like",
+                    data: {action_give: "unlike"},
+                    success: function () {
+                        console.log("unlike")
+                        $like.addClass("fa-heart-o").removeClass("fa-heart")
+                    }
+                })
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "/update_like",
+                    data: {action_give: "like"},
+                    success: function () {
+                        console.log("like")
+                        $like.addClass("fa-heart").removeClass("fa-heart-o")
+                    }
+                })
+            }
+        }
+
+        function show_top() {
+            $.ajax({
+                type: "GET",
+                url: "/top5",
+                data: {},
+                datatype:"json",
+                success: function (response) {
+                    let mynumber = response['mynumber']
+                    console.log(mynumber);
+                    for (let i = 0; i < mynumber.length; i++) {
+                        let number = mynumber[i]['number']
+                        let like = mynumber[i]['like']
+                        let id = mynumber[i]['id']
+
+                        let append_one =`<ul>
+                                                <li>${number}</li>
+                                                <li>${like}</li>
+                                                <li>${id}</li>
+                                          </ul>`
+
+                        $('#top').append(append_one)
+                    }
+                }
+            });
+        }
+
+
+
+    </script>
+</head>
+
+<body>
+<div class="likes">
+    <span class="text" onclick="like()">좋아요<i class="fa fa-heart" id="heart"></i></span>
+</div>
+<div class="top" id="top"></div>
+
+</body>
+</html>
