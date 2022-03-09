@@ -21,7 +21,7 @@
 }
 
 .keyword_wrap {
-    margin-top: 200px;
+    margin-top: 1px;
     padding-left: 100px;
     display: flex;
     flex-direction: column;
@@ -62,7 +62,7 @@
 }
 
 .top5 {
-    margin-top: 200px;
+    margin-top : -50px;
     margin-right: 100px;
 }
 
@@ -169,6 +169,8 @@
 
     border-radius: 5px;
     justify-content: center;
+
+    font-family: 'Jua', sans-serif;
 }
 
 .thumbnail {
@@ -182,6 +184,7 @@
 
 .info {
     margin-top: 8px;
+    padding-top: 10px;
 }
 
 .info_num {
@@ -193,3 +196,29 @@
     color : red;
 }
 
+.container {
+    height : 600px;
+    overflow:auto;
+    margin-left : 50px;
+}
+
+.container::-webkit-scrollbar {
+    width: 10px;
+  }
+
+.container::-webkit-scrollbar-thumb {
+    background-color: #2f3542;
+    border-radius: 10px;
+    background-clip: padding-box;
+    border: 2px solid transparent;
+}
+
+.container::-webkit-scrollbar-track {
+    background-color: grey;
+    border-radius: 10px;
+    box-shadow: inset 0px 0px 5px white;
+}
+
+i {
+    padding-top : 20px;
+}
