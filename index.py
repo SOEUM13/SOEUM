@@ -11,6 +11,8 @@ app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
 
 SECRET_KEY = 'SPARTA'
 
+from random import randrange
+
 import certifi
 import config
 
@@ -25,7 +27,7 @@ def home():
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
 
-        return render_template('post.html') #main page 의 html 넣으면 될 것 같습니다.
+        return render_template('post.html')
 
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
@@ -33,10 +35,44 @@ def home():
         return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
 
 
+@app.route('/like')
+def like():
+    return render_template('like.html')
+
+
 @app.route('/')
 def login():
     msg = request.args.get("msg")
     return render_template('login.html', msg=msg)
+
+
+@app.route('/update_like', methods=['POST'])
+def update_like():
+    action_receive = request.form["action_give"]
+    #랜덤 숫자
+    number = randrange(10)
+    doc = {
+        "number": number,
+        "like": "test",
+        "id": "test"
+    }
+    if action_receive == "like":
+        db.likes.insert_one(doc)
+    else:
+        db.likes.insert_one(doc)
+    return redirect("/like")
+
+
+@app.route('/top5', methods=['GET'])
+def get_top():
+
+    number_list = list(db.likes.find({}, {'_id':False}).sort("number", -1).limit(5))
+
+    # number_list = list(db.likes.find({}, {'_id':False}))
+
+    # for rows in number_list:
+    #     print(rows)
+    return jsonify({'mynumber':number_list})
 
 
 @app.route('/sign_in', methods=['POST'])

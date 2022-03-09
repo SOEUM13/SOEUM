@@ -2,12 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <link rel="stylesheet" href="./static/header.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+    <script>
+        function logout() {
+            $.removeCookie('mytoken', { path: '/post' });
+            alert('로그아웃!')
+            window.location.href = '/';
+        }
+    </script>
 </head>
+
 <body>
 <div class="header_wrap">
     <div class="logo" onclick="location.href='/'">SO:EUM</div>
-    <button>로그아웃</button>
+    <button onclick="logout()">로그아웃</button>
 </div>
 </body>
 </html>
