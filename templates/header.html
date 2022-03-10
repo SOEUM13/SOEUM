@@ -22,8 +22,10 @@
 <body>
     <div class="header_wrap">
         <div class="logo" onclick="location.href='/post'">SO:EUM</div>
-        <div class="name"><span>{{ user_info.nick_name }} 님</span></div>
-        <button class="logout" onclick="logout()">로그아웃</button>
+        <span>
+            <span class="name">{{ user_info.nick_name }} 님</span>
+            <button class="logout" onclick="logout()">로그아웃</button>
+        </span>
     </div>
 </body>
 </html>
