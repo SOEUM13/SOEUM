@@ -2,11 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>LIST | SO:EUM</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
     <link rel="stylesheet" href="/static/css/post.css">
+
+<!--글씨체-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Dongle:wght@400;700&family=Gugi&family=Jua&family=Nanum+Gothic+Coding&display=swap" rel="stylesheet">
+
     <script src="https://kit.fontawesome.com/2adf3c10c8.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
 
     <script>
 
@@ -73,7 +81,8 @@
                             myString = myString.concat(myArray[m]);
                         }
 
-                        let class_heart = post['heart_by_me'] ? "fa-heart" : "fa-heart-o"
+
+                        let class_heart = post['heart_by_me'] ? "fa-heart": "fa-heart-o"
                         let temp_html = `<div class="post_asmr" id="post-list">
                                             <img class="thumbnail" src="${myString}" onClick="javascript:;window.open('${url}');"'>
                                             <ul class="info" id="${num}">
@@ -128,7 +137,6 @@
             }
         }
 
-
         //keyword 순위
         function show_top() {
             $.ajax({
@@ -152,6 +160,54 @@
             });
         }
 
+
+        //keyword 누르면 해당 keyword만 분류하여 나오게 하기
+        $(document).ready(function () {
+            $("#changeTest").change(function () {
+                let selected_keyword = $(this).val();
+                $("#changeInput").val($(this).val());
+
+                $('#post-list').empty()
+                $.ajax({
+                    type: "GET",
+                    url: "/post/posting",
+                    data: {},
+                    success: function (response) {
+                        let rows = response['posts']
+                        for (let i = 0; i < rows.length; i++) {
+                            let keywords = rows[i]['keyword']
+                            let post = rows[i]
+                            let num = rows[i]['num']
+                            let username = rows[i]['username']
+                            let url = rows[i]['url']
+                            code = (url.substr(32, 11));
+                            var myArray = [code, '/default.jpg'];
+                            var myString = 'https://i1.ytimg.com/vi/';
+                            for (var m in myArray) {
+                                myString = myString.concat(myArray[m]);
+                            }
+                            if ($.trim(keywords) == selected_keyword) {
+                                let class_heart = post['heart_by_me'] ? "fa-heart" : "fa-heart-o"
+                                let temp_html = `<div class="post_asmr" id="post-list">
+                                            <img class="thumbnail" src="${myString}" onClick="javascript:;window.open('${url}');"'>
+                                            <ul class="info" id="${num}">
+                                                <li class="info_num">${num} 번째 SO:EUM!</li>
+                                                <li>키워드 : ${keywords}</li>
+                                                <li>작성자 : ${username}</li>
+                                                <span class="like" onclick="toggle_like('${num}')"><i class="fa ${class_heart}" id="heart"></i></span>
+                                                <span class="like-num">${post["count_heart"]}</span>
+                                            </ul>
+                                        </div>`
+                                $('#post-list').append(temp_html)
+                            } else if (selected_keyword == "전체") {
+                                window.location.href = '/post';
+                            }
+                        }
+                    }
+                })
+            });
+        });
+
         function delete_post(num) {
             $.ajax({
                 type: "POST",
@@ -166,6 +222,7 @@
                 }
             });
         }
+
 
     </script>
 
@@ -206,9 +263,10 @@
 
 
 <div class="mid">
-    <div class="keyword_wrap">
+    <div class="keyword_wrap" id="changeInput">
         <div class="keytext"># Keyword</div>
-        <select name="keyword">
+        <select name="keyword" id="changeTest">
+            <option value="전체">전체</option>
             <option value="슬라임">슬라임</option>
             <option value="음식">음식</option>
             <option value="사물">사물</option>
@@ -217,8 +275,9 @@
         </select>
     </div>
 
+
     <div class="post_zone">
-        <div id="post-list">
+        <div class = "container" id="post-list">
         </div>
     </div>
 
@@ -229,7 +288,6 @@
         </div>
     </div>
 </div>
-
 
 </body>
 </html>

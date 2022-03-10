@@ -1,7 +1,6 @@
 import jwt
 import datetime
 import hashlib
-
 from flask import Flask, render_template, jsonify, request, redirect, url_for
 from werkzeug.utils import secure_filename
 from datetime import datetime, timedelta
@@ -12,11 +11,12 @@ app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
 
 SECRET_KEY = 'SPARTA'
 
+from random import randrange
+
 import certifi
 import config
 
 from pymongo import MongoClient
-
 client = MongoClient(config.Mongo_key, tlsCAFile=certifi.where())
 db = client.SOEUM
 
@@ -32,8 +32,9 @@ def home():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.user.find_one({"username": payload["id"]})
+        return render_template('post.html', user_info=user_info)
 
-        return render_template('post.html')
 
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
@@ -52,8 +53,8 @@ def sign_in():
 
     if result is not None:
         payload = {
-            'id': username_receive,
-            'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)  # 로그인 24시간 유지
+         'id': username_receive,
+         'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)  # 로그인 24시간 유지
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
 
@@ -70,9 +71,9 @@ def sign_up():
     nickname_receive = request.form['nickname_give']
     password_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
     doc = {
-        "username": username_receive,  # 아이디
-        "password": password_hash,  # 비밀번호
-        "nick_name": nickname_receive  # 이름
+        "username": username_receive,                               # 아이디
+        "password": password_hash,                                  # 비밀번호
+        "nick_name": nickname_receive                               # 이름
     }
     db.user.insert_one(doc)
     return jsonify({'result': 'success'})
@@ -101,7 +102,6 @@ def posting():
             "username": payload["id"],
             "keyword": keyword_receive,
             "url": url_receive
-
         }
         db.post.insert_one(doc)
         return jsonify({'result': 'success', 'msg': '성공'})
@@ -163,7 +163,7 @@ def post_get():
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
 
-        post_list = list(db.post.find({}, {'_id': False}))
+        post_list = list(db.post.find({}, {'_id': False}).sort('_id', -1))
 
         for post in post_list:
             post["num"] = str(post["num"])

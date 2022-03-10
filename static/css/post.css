@@ -21,7 +21,7 @@
 }
 
 .keyword_wrap {
-    margin-top: 200px;
+    margin-top: 1px;
     padding-left: 100px;
     display: flex;
     flex-direction: column;
@@ -106,7 +106,6 @@
     font-weight: bold;
 }
 
-
 #heart:hover {
     cursor: pointer;
 }
@@ -117,10 +116,10 @@
     width: 500px;
     height: 200px;
     position: absolute;
-    top: 50%;
+    top:50%;
     left: 50%;
     margin: -250px 0 0 -250px;
-    background: #eee;
+    background:#eee;
     z-index: 2;
 }
 
@@ -130,8 +129,8 @@
     content: "";
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    top: 0;
+    background-color:rgba(0, 0,0, 0.5);
+    top:0;
     left: 0;
     z-index: 1;
 }
@@ -146,18 +145,18 @@
     right: 0;
 }
 
-.modal_close > a {
+.modal_close> a {
     display: block;
     width: 100%;
     height: 100%;
-    background: url(https://img.icons8.com/metro/26/000000/close-window.png);
+    background:url(https://img.icons8.com/metro/26/000000/close-window.png);
     text-indent: -9999px;
 }
 
 .modal_keyword {
     width: 400px;
     height: 40px;
-    margin: 25px 50px 5px 50px;
+    margin: 25px 50px 5px 50px ;
 }
 
 .modal_url {
@@ -199,6 +198,8 @@
 
     border-radius: 5px;
     justify-content: center;
+
+    font-family: 'Jua', sans-serif;
 }
 
 .thumbnail {
@@ -207,19 +208,45 @@
     object-fit: cover;
     border-radius: 3px;
     margin: 10px 10px 10px 10px;
-    float: left
+    float:left
 }
 
 .info {
     margin-top: 8px;
+    padding-top: 10px;
 }
 
 .info_num {
     margin-bottom: 10px;
-    font-size: 18px;
+    font-size : 18px;
 }
 
 #heart, .like-num {
     color: red;
 }
 
+.container {
+    height : 600px;
+    overflow:auto;
+}
+
+.container::-webkit-scrollbar {
+    width: 10px;
+  }
+
+.container::-webkit-scrollbar-thumb {
+    background-color: #2f3542;
+    border-radius: 10px;
+    background-clip: padding-box;
+    border: 2px solid transparent;
+}
+
+.container::-webkit-scrollbar-track {
+    background-color: grey;
+    border-radius: 10px;
+    box-shadow: inset 0px 0px 5px white;
+}
+
+i {
+    padding-top : 20px;
+}
