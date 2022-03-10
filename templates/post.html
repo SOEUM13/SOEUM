@@ -108,13 +108,10 @@
                                                 </span>
                                                 <li>키워드 : ${keyword}</li>
                                                 <li>작성자 : ${username}</li>
-                                                <span class="like" onclick="toggle_like('${num}')"><i class="fa ${class_heart}" id="heart"></i></span>
-                                                <span class="like-num">${post["count_heart"]}</span>
                                                 <span class="hide" onclick="delete_post(${num}) ">
                                                 <p>Delete</p>
                                                 </span>
                                             </ul>
-
                                         </div>`
                         $('#post-list').append(temp_html)
                     }
