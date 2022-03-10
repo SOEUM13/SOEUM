@@ -1,3 +1,17 @@
+
+@font-face {
+    font-family: 'GangwonEdu_OTFBoldA';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+* {
+    font-family: 'GangwonEdu_OTFBoldA';
+    font-weight: bolder;
+}
+
 body {
     background-image: linear-gradient(
             rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)
@@ -32,4 +46,10 @@ body {
 .name {
     margin-left: 75rem;
     margin-top: 15px;
+}
+
+.logout:hover {
+    cursor: pointer;
+    color: red;
+    font-weight: bolder;
 }
