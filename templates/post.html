@@ -6,10 +6,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
     <link rel="stylesheet" href="/static/css/post.css">
 
-<!--글씨체-->
+    <!--글씨체-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Dongle:wght@400;700&family=Gugi&family=Jua&family=Nanum+Gothic+Coding&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Dongle:wght@400;700&family=Gugi&family=Jua&family=Nanum+Gothic+Coding&display=swap"
+          rel="stylesheet">
 
     <script src="https://kit.fontawesome.com/2adf3c10c8.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -81,16 +82,17 @@
                             myString = myString.concat(myArray[m]);
                         }
 
-
-                        let class_heart = post['heart_by_me'] ? "fa-heart": "fa-heart-o"
+                        let class_heart = post['heart_by_me'] ? "fa-heart" : "fa-heart-o"
                         let temp_html = `<div class="post_asmr" id="post-list">
                                             <img class="thumbnail" src="${myString}" onClick="javascript:;window.open('${url}');"'>
                                             <ul class="info" id="${num}">
-                                                <li class="info_num">${num} 번째 SO:EUM!</li>
+                                                <li class="info_num">${num} 번째 SO:EUM</li>
+                                                <span class="like_part">
+                                                <span class="like-num">${post["count_heart"]}</span>
+                                                <span class="like" onclick="toggle_like('${num}')"><i class="fa ${class_heart}" id="heart"></i></span>
+                                                </span>
                                                 <li>키워드 : ${keyword}</li>
                                                 <li>작성자 : ${username}</li>
-                                                <span class="like" onclick="toggle_like('${num}')"><i class="fa ${class_heart}" id="heart"></i></span>
-                                                <span class="like-num">${post["count_heart"]}</span>
                                             </ul>
                                         </div>`
                         $('#post-list').append(temp_html)
@@ -189,10 +191,12 @@
                                             <img class="thumbnail" src="${myString}" onClick="javascript:;window.open('${url}');"'>
                                             <ul class="info" id="${num}">
                                                 <li class="info_num">${num} 번째 SO:EUM!</li>
+                                                <span class="like_part">
+                                                <span class="like-num">${post["count_heart"]}</span>
+                                                <span class="like" onclick="toggle_like('${num}')"><i class="fa ${class_heart}" id="heart"></i></span>
+                                                </span>
                                                 <li>키워드 : ${keywords}</li>
                                                 <li>작성자 : ${username}</li>
-                                                <span class="like" onclick="toggle_like('${num}')"><i class="fa ${class_heart}" id="heart"></i></span>
-                                                <span class="like-num">${post["count_heart"]}</span>
                                             </ul>
                                         </div>`
                                 $('#post-list').append(temp_html)
@@ -218,7 +222,7 @@
 <div class="top">
     <div class="insert_btn">
 
-        <div id="modal_btn" class="modal_btn">당신의 ASMR을 등록해보세요.</div>
+        <div id="modal_btn" class="modal_btn">⋆₊ﾟ☽*₊⋆ 당신의 ASMR을 공유하세요 ⋆₊ﾟ☽*₊⋆</div>
         <div class="black_bg"></div>
         <div class="modal_wrap">
             <div class="modal_close">
@@ -226,7 +230,7 @@
             </div>
             <div>
                 <select class="modal_keyword" id="input_keyword">
-                    <option value="">키워드를 골라주세요!</option>
+                    <option value="">당신의 키워드</option>
                     <option value="슬라임">슬라임</option>
                     <option value="음식">음식</option>
                     <option value="사물">사물</option>
@@ -236,9 +240,9 @@
             </div>
 
             <div>
-                <input type="url" class="modal_url" id="input_url" placeholder="URL을 입력해주세요!">
+                <input type="url" class="modal_url" id="input_url" placeholder="Youtube URL" spellCheck="false">
             </div>
-            <button class="modal_submit" onclick="post()">당신의 ASMR을 등록해보세요.</button>
+            <button class="modal_submit" onclick="post()">등록</button>
         </div>
     </div>
 </div>
@@ -259,15 +263,13 @@
 
 
     <div class="post_zone">
-        <div class = "container" id="post-list">
+        <div class="container" id="post-list">
         </div>
     </div>
 
     <div class="top5">
         <div class="top5_title"># 등록 순위</div>
-        <div class="top5_list">
-
-        </div>
+        <div class="top5_list"></div>
     </div>
 </div>
 
