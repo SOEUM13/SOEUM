@@ -16,7 +16,7 @@ http://kbong00.shop/
 
 ## 시연영상
 
-영상 주소 : 
+영상 주소 : https://youtu.be/SvPc0G4LMU4
 
 
 ## 핵심기능
