@@ -62,7 +62,23 @@
                 margin-top : 30px;
             }
 
-        </style>
+            .layer {
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                display: -webkit-flex;
+                -webkit-align-item;
+                center;
+                -webkit-justify-content: center;
+            }
+            </style>
+
         <script>
             {% if msg %}
                 alert("{{ msg }}")
@@ -219,7 +235,7 @@
     <body>
     <div class="hero-body has-text-centered" style="padding-bottom:6rem;margin:auto;">
     </div>
-    <div class="columns is-mobile is-multiline is-centered">
+    <div class="columns is-mobile is-multiline is-centered layer">
         <div class="column is-narrow">
             <img src="static/img/logo.png" style="margin:auto;">
         </div>
