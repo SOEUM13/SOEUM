@@ -14,7 +14,7 @@
 http://kbong00.shop/ 
 
 
-## 시연영상
+## 시연영상 링크
 
 영상 주소 : https://youtu.be/SvPc0G4LMU4
 
