@@ -6,10 +6,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
     <link rel="stylesheet" href="/static/css/post.css">
 
-<!--글씨체-->
+    <!--글씨체-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Dongle:wght@400;700&family=Gugi&family=Jua&family=Nanum+Gothic+Coding&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Dongle:wght@400;700&family=Gugi&family=Jua&family=Nanum+Gothic+Coding&display=swap"
+          rel="stylesheet">
 
     <script src="https://kit.fontawesome.com/2adf3c10c8.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -59,6 +60,7 @@
         }
 
 
+
         function show_post() {
             $('#post-list').empty()
             $.ajax({
@@ -81,8 +83,21 @@
                             myString = myString.concat(myArray[m]);
                         }
 
+                    $(function hide() {
+                            if ("abc" == "abc") {
+                                var hide = document.getElementsByClassName("hide");
+                                for (var i = 0; i < hide.length; i++) {
+                                    hide[i].style.display = "";
+                                }
+                            } else {
+                                var hide = document.getElementsByClassName("hide");
+                                for (var i = 0; i < hide.length; i++) {
+                                    hide[i].style.display = "none";
+                                }
+                            }
+                        })
 
-                        let class_heart = post['heart_by_me'] ? "fa-heart": "fa-heart-o"
+                        let class_heart = post['heart_by_me'] ? "fa-heart" : "fa-heart-o"
                         let temp_html = `<div class="post_asmr" id="post-list">
                                             <img class="thumbnail" src="${myString}" onClick="javascript:;window.open('${url}');"'>
                                             <ul class="info" id="${num}">
@@ -91,10 +106,11 @@
                                                 <li>작성자 : ${username}</li>
                                                 <span class="like" onclick="toggle_like('${num}')"><i class="fa ${class_heart}" id="heart"></i></span>
                                                 <span class="like-num">${post["count_heart"]}</span>
+                                                <span class="hide" onclick="delete_post(${num}) ">
+                                                <p>Delete</p>
+                                                </span>
                                             </ul>
-                                            <button id="btn-delete" class="btn btn-sparta btn-lg " onclick="delete_post(${num}) ">
-                                                <i class="fa fa-trash-o"></i>
-                                            </button>
+
                                         </div>`
                         $('#post-list').append(temp_html)
                     }
@@ -212,16 +228,15 @@
             $.ajax({
                 type: "POST",
                 url: "/post/delete",
-                data: {
-                    num_give: num,
-                    username_give: username
-                },
+                data: {num_give: num},
                 success: function (response) {
                     alert(response["msg"])
-                    console.log(response["msg"])
+                    window.location.reload()
                 }
             });
         }
+
+
 
 
     </script>
@@ -277,7 +292,7 @@
 
 
     <div class="post_zone">
-        <div class = "container" id="post-list">
+        <div class="container" id="post-list">
         </div>
     </div>
 

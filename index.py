@@ -109,6 +109,8 @@ def posting():
         return redirect(url_for("home"))
 
 
+
+
 #좋아요 update 및 count 표기 관련
 @app.route('/post/like', methods=['POST'])
 def update_like():
@@ -176,22 +178,10 @@ def post_get():
 
 @app.route("/post/delete", methods=["POST"])
 def post_delete():
-    token_receive = request.cookies.get('mytoken')
-    try:
-        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-
-        user_info = db.user.find_one({"username": payload["id"]})
         num_receive = request.form['num_give']
-        poster_info = db.post.find_one({"username": payload["id"]})
 
-        if user_info == poster_info:
-            db.post.delete_one({'num': int(num_receive)})
-            return jsonify({'result': 'success', 'msg': '성공'})
-        else:
-            return jsonify({'result': 'false', 'msg': '실패'})
-
-    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-        return redirect(url_for("home"))
+        db.post.delete_one({'num': int(num_receive)})
+        return jsonify({'msg': '삭제 완료!'})
 
 
 if __name__ == '__main__':
