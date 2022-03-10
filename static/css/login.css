@@ -1,0 +1,57 @@
+body {
+    background-image: linear-gradient(
+    rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)
+    ), url( "/static/img/background.png" );
+    min-height: 100vh;
+    background-repeat : no-repeat;
+    background-size : cover;
+}
+
+.section {
+    padding: 1rem 1.5rem;
+    max-width: 750px;
+    margin: auto;
+}
+
+.is-sparta {
+    color: mediumpurple !important;
+}
+
+.button.is-sparta {
+    background-color: mediumpurple;
+    border-color: transparent;
+    color: #fff !important;
+}
+
+.button.is-sparta.is-outlined {
+    background-color: transparent;
+    border-color: mediumpurple;
+    color: mediumpurple !important;
+}
+
+.help {
+    color: gray;
+}
+.nick-margin {
+    margin-top: 10px;
+}
+
+.login-box {
+    margin-top : 30px;
+}
+
+.layer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    display: -webkit-flex;
+    -webkit-align-item;
+    center;
+    -webkit-justify-content: center;
+}

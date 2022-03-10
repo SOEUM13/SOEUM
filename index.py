@@ -164,7 +164,6 @@ def post_get():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-
         post_list = list(db.post.find({}, {'_id': False}).sort('_id', -1))
 
         for post in post_list:
@@ -185,8 +184,6 @@ def post_del():
         return jsonify({"result": "success", "username": username})
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
-
-
 
 
 if __name__ == '__main__':
