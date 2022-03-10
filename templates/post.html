@@ -59,8 +59,7 @@
             })
         }
 
-
-
+//포스팅하기
         function show_post() {
             $('#post-list').empty()
             $.ajax({
@@ -83,20 +82,6 @@
                             myString = myString.concat(myArray[m]);
                         }
 
-                    $(function hide() {
-                            if ("abc" == "abc") {
-                                var hide = document.getElementsByClassName("hide");
-                                for (var i = 0; i < hide.length; i++) {
-                                    hide[i].style.display = "";
-                                }
-                            } else {
-                                var hide = document.getElementsByClassName("hide");
-                                for (var i = 0; i < hide.length; i++) {
-                                    hide[i].style.display = "none";
-                                }
-                            }
-                        })
-
                         let class_heart = post['heart_by_me'] ? "fa-heart" : "fa-heart-o"
                         let temp_html = `<div class="post_asmr" id="post-list">
                                             <img class="thumbnail" src="${myString}" onClick="javascript:;window.open('${url}');"'>
@@ -108,9 +93,6 @@
                                                 </span>
                                                 <li>키워드 : ${keyword}</li>
                                                 <li>작성자 : ${username}</li>
-                                                <span class="hide" onclick="delete_post(${num}) ">
-                                                <p>Delete</p>
-                                                </span>
                                             </ul>
                                         </div>`
                         $('#post-list').append(temp_html)
@@ -226,19 +208,6 @@
                 })
             });
         });
-
-        function delete_post(num) {
-            $.ajax({
-                type: "POST",
-                url: "/post/delete",
-                data: {num_give: num},
-                success: function (response) {
-                    alert(response["msg"])
-                    window.location.reload()
-                }
-            });
-        }
-
 
 
 

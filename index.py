@@ -92,8 +92,10 @@ def posting():
 
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+
         keyword_receive = request.form["keyword_give"]
         url_receive = request.form["url_give"]
+
         post_rist = list(db.post.find({}, {'_id': False}))
         count = len(post_rist) + 1
 
@@ -107,8 +109,6 @@ def posting():
         return jsonify({'result': 'success', 'msg': '성공'})
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
-
-
 
 
 #좋아요 update 및 count 표기 관련
@@ -164,7 +164,6 @@ def post_get():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-
         post_list = list(db.post.find({}, {'_id': False}).sort('_id', -1))
 
         for post in post_list:
@@ -176,12 +175,17 @@ def post_get():
         return redirect(url_for("home"))
 
 
-@app.route("/post/delete", methods=["POST"])
-def post_delete():
-        num_receive = request.form['num_give']
+@app.route("/post/delete", methods=["GET"])
+def post_del():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        username = payload["id"]
+        return jsonify({"result": "success", "username": username})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
 
-        db.post.delete_one({'num': int(num_receive)})
-        return jsonify({'msg': '삭제 완료!'})
+
 
 
 if __name__ == '__main__':

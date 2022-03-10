@@ -34,7 +34,7 @@ body {
     font-size: 25px;
 }
 
-.header_wrap > button {
+.logout {
     margin: 10px 20px 0 0;
     border: none;
     background-color: bisque;
@@ -44,8 +44,7 @@ body {
     font-weight: bolder;
 }
 .name {
-    margin-left: 75rem;
-    margin-top: 15px;
+    margin-right : 20px;
 }
 
 .logout:hover {
