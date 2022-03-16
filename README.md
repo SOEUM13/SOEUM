@@ -11,7 +11,7 @@
 
 
 ## 웹사이트 링크
-http://kbong00.shop/ 
+http://kbong00.shop/ (3/17 서버 Close)
 
 
 ## 시연영상 링크
